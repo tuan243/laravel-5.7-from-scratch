@@ -1,9 +1,7 @@
 <?php
 
-// use App\Services\Twitter;
-app()->singleton('App\Services\Twitter', function () {
-    return new \App\Services\Twitter('asdsadsdssa');
-});
+use App\Services\Twitter;
+use App\Repositories\UserRepository;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +14,25 @@ app()->singleton('App\Services\Twitter', function () {
 |
 */
 
-Route::get('/', function () {
-    dd(app('App\Example'));
+
+Route::get('/', function (Twitter $twitter) {
+    // session(['name' => 'tuando']);
     return view('welcome');
 });
+
 Route::resource('projects', 'ProjectsController');
 
 Route::patch('/tasks/{task}', 'ProjectTasksController@update');
 Route::post('/projects/{project}/tasks', 'ProjectTasksController@store');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/project/test', function() {
+    return view('projects.test');
+});
+
+Route::post('/project', function() {
+    session()->flash('message', 'your project has been created');
+
+    return redirect('/');
+});

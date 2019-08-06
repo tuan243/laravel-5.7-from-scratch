@@ -64,6 +64,9 @@
         </style>
     </head>
     <body>
+        @if (session('message'))
+            <p>{{ session('message') }}</p>
+        @endif
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
